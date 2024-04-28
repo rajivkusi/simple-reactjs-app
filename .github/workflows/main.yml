@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
     - name: Create a File
-      run: echo "hello from ${{ matrix.runs-on }}" > file-${{ matrix.runs-on }}.txt
+      run: echo "hello from ${{ matrix.runs-on }}" > ci.json
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
@@ -27,6 +27,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: my-artifact
-        pattern: ci-data*
-    #    merge-multiple: true
+        pattern: ci-* #my-artifact-*
+        merge-multiple: true
     - run: cat my-artifact/ci.json
