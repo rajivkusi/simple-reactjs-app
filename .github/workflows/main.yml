@@ -26,7 +26,7 @@ jobs:
     - name: Download All Artifacts
       uses: actions/download-artifact@v4
       with:
-        path: my-artifact
+  #      path: my-artifact
         name: ci-data #my-artifact-*
   #      merge-multiple: true
-    - run: cat my-artifact/ci.json
+    - run: cat ci.json
