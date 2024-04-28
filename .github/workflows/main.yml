@@ -28,5 +28,5 @@ jobs:
       with:
         path: my-artifact
         name: ci-data #my-artifact-*
-        merge-multiple: true
+  #      merge-multiple: true
     - run: cat my-artifact/ci.json
