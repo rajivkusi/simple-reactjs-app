@@ -27,6 +27,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: my-artifact
-        pattern: ci-data #my-artifact-*
+        name: ci-data #my-artifact-*
         merge-multiple: true
     - run: cat my-artifact/ci.json
