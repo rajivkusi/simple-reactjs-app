@@ -1,20 +1,20 @@
 
-name: Build and Deploy
+# name: Build and Deploy
 
-on:
-  pull_request:
-jobs:
-  upload:
-    strategy:
-      matrix:
-        runs-on: [ubuntu-latest]
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-    - name: Create a File
-      run: echo "hello from ${{ matrix.runs-on }}" > ci.json
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ci-data #my-artifact-${{ matrix.runs-on }}
-        path: ci.json #file-${{ matrix.runs-on }}.txt
+# on:
+#   pull_request:
+# jobs:
+#   upload:
+#     strategy:
+#       matrix:
+#         runs-on: [ubuntu-latest]
+#     runs-on: ${{ matrix.runs-on }}
+#     steps:
+#     - name: Create a File
+#       run: echo "hello from ${{ matrix.runs-on }}" > ci.json
+#     - name: Upload Artifact
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: ci-data #my-artifact-${{ matrix.runs-on }}
+#         path: ci.json #file-${{ matrix.runs-on }}.txt
   
