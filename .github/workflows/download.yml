@@ -1,26 +1,55 @@
-
-name: Build and Deploy
+name: Get Last Merged PR Info
 
 on:
   push:
     branches:
-      - master
+      - master  # Change this to match your default branch
+
 jobs:
-  download:
+  get-last-merged-pr-info:
     runs-on: ubuntu-latest
-    permissions: 
-      actions: read
+
     steps:
-    - name: Download All Artifacts
-      id: download-artifact
-      uses: dawidd6/action-download-artifact@v3
-      with:
-  #       github_token: ${{secrets.GH_TOKEN}}
-         workflow: main.yml
-         name: ci-data
-         check_artifacts: true
-         search_artifacts: true
-    - run: cat ci.json
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Get Last Merged PR Info
+        id: get_last_merged_pr
+        run: |
+          TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.repository }}"
+          LAST_PR_INFO=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
+          echo "::set-output name=last_pr_info::$LAST_PR_INFO"
+      
+      - name: Output Last Merged PR Info
+        run: echo "Last Merged PR Info: ${{ steps.get_last_merged_pr.outputs.last_pr_info }}"
+
+
+
+
+# name: Build and Deploy
+
+# on:
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   download:
+#     runs-on: ubuntu-latest
+#     permissions: 
+#       actions: read
+#     steps:
+#     - name: Download All Artifacts
+#       id: download-artifact
+#       uses: dawidd6/action-download-artifact@v3
+#       with:
+#   #       github_token: ${{secrets.GH_TOKEN}}
+#          workflow: main.yml
+#          name: ci-data
+#          check_artifacts: true
+#          search_artifacts: true
+#     - run: cat ci.json
 
 
 
