@@ -19,9 +19,14 @@ jobs:
           TOKEN="${{ secrets.GH_TOKEN }}"
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.repository }}"
-          LAST_PR_INFO=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
+          PR_URL=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
+          COMMITS_URL=$(curl -sSL -H "Authorization: token $TOKEN" "$PR_URL/commits" | jq -r '.[0].url')
+          LATEST_COMMIT=$(curl -sSL -H "Authorization: token $TOKEN" "$COMMITS_URL")
+
+
           echo "::set-output name=last_pr_info::$LAST_PR_INFO"
           echo $LAST_PR_INFO
+          echo $LATEST_COMMIT
       
       # - name: Output Last Merged PR Info
       #   run: echo "Last Merged PR Info: ${{ steps.get_last_merged_pr.outputs.last_pr_info }}"
