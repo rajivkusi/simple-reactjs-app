@@ -14,7 +14,7 @@ jobs:
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
       with:
-         github_token: ${{secrets.GH_TOKEN}}
+  #       github_token: ${{secrets.GH_TOKEN}}
          workflow: main.yml
          name: ci-data
          check_artifacts: true
