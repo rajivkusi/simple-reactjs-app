@@ -8,14 +8,30 @@ on:
 jobs:
   download:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
+    permissions: read-all
     steps:
     - name: Download All Artifacts
-      uses: actions/download-artifact@v4
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v3
       with:
-  #      path: my-artifact
-        name: ci-data #my-artifact-*
-  #      merge-multiple: true
-        github-token: ${{ secrets.GH_TOKEN }}
+         github_token: ${{secrets.GH_TOKEN}}
+         workflow: main.yml
+         name: ci-data
+         check_artifacts: true
+         search_artifacts: true
     - run: cat ci.json
+
+
+
+
+
+
+  #     uses: actions/download-artifact@v4
+  #     with:
+  # #      path: my-artifact
+  #       name: ci-data #my-artifact-*
+  # #      merge-multiple: true
+  #       github-token: ${{ secrets.GH_TOKEN }}
+  #       check_artifacts: true
+  #       search_artifacts: true
+  #   - run: cat ci.json
