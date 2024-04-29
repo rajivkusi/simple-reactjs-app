@@ -2,9 +2,7 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
 jobs:
   upload:
     strategy:
@@ -19,14 +17,4 @@ jobs:
       with:
         name: ci-data #my-artifact-${{ matrix.runs-on }}
         path: ci.json #file-${{ matrix.runs-on }}.txt
-  download:
-    needs: upload
-    runs-on: ubuntu-latest
-    steps:
-    - name: Download All Artifacts
-      uses: actions/download-artifact@v4
-      with:
-  #      path: my-artifact
-        name: ci-data #my-artifact-*
-  #      merge-multiple: true
-    - run: cat ci.json
+  

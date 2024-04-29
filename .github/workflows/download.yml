@@ -1,0 +1,18 @@
+
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download All Artifacts
+      uses: actions/download-artifact@v4
+      with:
+  #      path: my-artifact
+        name: ci-data #my-artifact-*
+  #      merge-multiple: true
+    - run: cat ci.json
