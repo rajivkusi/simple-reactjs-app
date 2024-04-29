@@ -17,4 +17,5 @@ jobs:
   #      path: my-artifact
         name: ci-data #my-artifact-*
   #      merge-multiple: true
+        github-token: ${{ secrets.GH_TOKEN }}
     - run: cat ci.json
