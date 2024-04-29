@@ -19,7 +19,7 @@ jobs:
           TOKEN="${{ secrets.GH_TOKEN }}"
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.repository }}"
-          PR_URL=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
+          PR_URL=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
           COMMITS_URL=$(curl -sSL -H "Authorization: token $TOKEN" "$PR_URL/commits" | jq -r '.[0].url')
           LATEST_COMMIT=$(curl -sSL -H "Authorization: token $TOKEN" "$COMMITS_URL")
 
