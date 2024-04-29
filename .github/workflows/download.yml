@@ -16,7 +16,7 @@ jobs:
       - name: Get Last Merged PR Info
         id: get_last_merged_pr
         run: |
-          TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          TOKEN="${{ secrets.GH_TOKEN }}"
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.repository }}"
           LAST_PR_INFO=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls?state=closed" | jq '.[] | select(.merged_at != null) | .')
