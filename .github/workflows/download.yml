@@ -3,7 +3,7 @@ name: Get Last Merged PR Info
 on:
   push:
     branches:
-      - main  # Change this to match your default branch
+      - master  # Change this to match your default branch
 
 jobs:
   get-last-merged-pr-info:
