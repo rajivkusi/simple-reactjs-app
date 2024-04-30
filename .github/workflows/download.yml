@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: false # Only runs if the 'build' job was successful
+    steps:
+      - name: test
+        run: echo "hello"
     # steps:
     #   - name: Set service name
     #     id: set_service_name
