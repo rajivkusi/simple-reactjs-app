@@ -1,36 +1,93 @@
-name: Get Last Merged PR Info
+name: Example Workflow
 
 on:
   push:
     branches:
-      - master  # Change this to match your default branch
+      - main
 
 jobs:
-  get-last-merged-pr-info:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v2
-      
-      - name: Get Last Merged PR Info
-        id: get_last_merged_pr
+
+      - name: Run tests
         run: |
-          TOKEN="${{ secrets.GH_TOKEN }}"
-          REPO_OWNER="${{ github.repository_owner }}"
-          REPO_NAME="${{ github.repository }}"
-          PR_API_URL=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_NAME/pulls?state=closed&sort=merged&direction=desc" | jq -r '.[0].url')
-          COMMITS_URL=$(curl -sSL -H "Authorization: token $TOKEN" "$PR_API_URL/commits" | jq -r '.[0].url')
-          LATEST_COMMIT=$(curl -sSL -H "Authorization: token $TOKEN" "$COMMITS_URL" | jq -r '.sha')
+          # Your test command here
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: false # Only runs if the 'build' job was successful
+    # steps:
+    #   - name: Set service name
+    #     id: set_service_name
+    #     run: echo "::set-output name=service_name::production"
+
+    #   - name: Deploy
+    #     # Set service name dynamically based on some condition
+    #     # For example, use a different service name for pull requests
+    #     if: ${{ github.event_name == 'pull_request' }}
+    #     with:
+    #       service_name: ${{ format('{0}-pr-{1}', needs.build.outputs.service_name, github.event.number) }}
+
+    #   - name: Deploy
+    #     # Set service name to the output of the 'set_service_name' step for other events
+    #     if: ${{ github.event_name != 'pull_request' }}
+    #     with:
+    #       service_name: ${{ needs.deploy.outputs.service_name }}
+
+  check-deployment:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Check if deployment job ran
+        run: |
+          if [ -z "$DEPLOY_JOB_RESULT" ]; then
+            echo "Deployment job didn't run."
+          else
+            echo "Deployment job ran with result: $DEPLOY_JOB_RESULT"
+          fi
+        env:
+          DEPLOY_JOB_RESULT: ${{ needs.deploy.result }}
 
 
-          echo "::set-output name=last_pr_info::$LAST_PR_INFO"
-          echo $PR_API_URL
-          echo $COMMITS_URL
-          echo $LATEST_COMMIT
+
+
+# name: Get Last Merged PR Info
+
+# on:
+#   push:
+#     branches:
+#       - master  # Change this to match your default branch
+
+# jobs:
+#   get-last-merged-pr-info:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
       
-      # - name: Output Last Merged PR Info
-      #   run: echo "Last Merged PR Info: ${{ steps.get_last_merged_pr.outputs.last_pr_info }}"
+#       - name: Get Last Merged PR Info
+#         id: get_last_merged_pr
+#         run: |
+#           TOKEN="${{ secrets.GH_TOKEN }}"
+#           REPO_OWNER="${{ github.repository_owner }}"
+#           REPO_NAME="${{ github.repository }}"
+#           PR_API_URL=$(curl -sSL -H "Authorization: token $TOKEN" "https://api.github.com/repos/$REPO_NAME/pulls?state=closed&sort=merged&direction=desc" | jq -r '.[0].url')
+#           COMMITS_URL=$(curl -sSL -H "Authorization: token $TOKEN" "$PR_API_URL/commits" | jq -r '.[0].url')
+#           LATEST_COMMIT=$(curl -sSL -H "Authorization: token $TOKEN" "$COMMITS_URL" | jq -r '.sha')
+
+
+#           echo "::set-output name=last_pr_info::$LAST_PR_INFO"
+#           echo $PR_API_URL
+#           echo $COMMITS_URL
+#           echo $LATEST_COMMIT
+      
+#       # - name: Output Last Merged PR Info
+#       #   run: echo "Last Merged PR Info: ${{ steps.get_last_merged_pr.outputs.last_pr_info }}"
 
 
 
@@ -45,19 +102,19 @@ jobs:
 # jobs:
 #   download:
 #     runs-on: ubuntu-latest
-#     permissions: 
-#       actions: read
-#     steps:
-#     - name: Download All Artifacts
-#       id: download-artifact
-#       uses: dawidd6/action-download-artifact@v3
-#       with:
-#   #       github_token: ${{secrets.GH_TOKEN}}
-#          workflow: main.yml
-#          name: ci-data
-#          check_artifacts: true
-#          search_artifacts: true
-#     - run: cat ci.json
+  #   permissions: 
+  #     actions: read
+  #   steps:
+  #   - name: Download All Artifacts
+  #     id: download-artifact
+  #     uses: dawidd6/action-download-artifact@v3
+  #     with:
+  # #       github_token: ${{secrets.GH_TOKEN}}
+  #        workflow: main.yml
+  #        name: ci-data
+  #        check_artifacts: true
+  #        search_artifacts: true
+  #   - run: cat ci.json
 
 
 
