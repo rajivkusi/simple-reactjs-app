@@ -19,7 +19,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: true # Only runs if the 'build' job was successful
+    if: false # Only runs if the 'build' job was successful
     steps:
       - name: test
         if: false
