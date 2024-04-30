@@ -19,9 +19,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: false # Only runs if the 'build' job was successful
+    if: true # Only runs if the 'build' job was successful
     steps:
       - name: test
+        if: false
         run: echo "hello"
     # steps:
     #   - name: Set service name
