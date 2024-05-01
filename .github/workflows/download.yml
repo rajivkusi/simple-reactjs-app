@@ -1,29 +1,29 @@
-name: Example Workflow
+# name: Example Workflow
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v2
 
-      - name: Run tests
-        run: |
-          # Your test command here
+#       - name: Run tests
+#         run: |
+#           # Your test command here
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: false # Only runs if the 'build' job was successful
-    steps:
-      - name: test
-        if: false
-        run: echo "hello"
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: build
+#     if: false # Only runs if the 'build' job was successful
+#     steps:
+#       - name: test
+#         if: false
+#         run: echo "hello"
     # steps:
     #   - name: Set service name
     #     id: set_service_name
@@ -42,20 +42,20 @@ jobs:
     #     with:
     #       service_name: ${{ needs.deploy.outputs.service_name }}
 
-  check-deployment:
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: always() &&  (needs.deploy.result == 'skipped')
-    steps:
-      - name: Check if deployment job ran
-        run: |
-          if [ -z "$DEPLOY_JOB_RESULT" ]; then
-            echo "Deployment job didn't run."
-          else
-            echo "Deployment job ran with result: $DEPLOY_JOB_RESULT"
-          fi
-        env:
-          DEPLOY_JOB_RESULT: ${{ needs.deploy.result }}
+  # check-deployment:
+  #   runs-on: ubuntu-latest
+  #   needs: deploy
+  #   if: always() &&  (needs.deploy.result == 'skipped')
+  #   steps:
+  #     - name: Check if deployment job ran
+  #       run: |
+  #         if [ -z "$DEPLOY_JOB_RESULT" ]; then
+  #           echo "Deployment job didn't run."
+  #         else
+  #           echo "Deployment job ran with result: $DEPLOY_JOB_RESULT"
+  #         fi
+  #       env:
+  #         DEPLOY_JOB_RESULT: ${{ needs.deploy.result }}
 
 
 
@@ -98,28 +98,28 @@ jobs:
 
 
 
-# name: Build and Deploy
+name: Build and Deploy
 
-# on:
-#   push:
-#     branches:
-#       - master
-# jobs:
-#   download:
-#     runs-on: ubuntu-latest
-  #   permissions: 
-  #     actions: read
-  #   steps:
-  #   - name: Download All Artifacts
-  #     id: download-artifact
-  #     uses: dawidd6/action-download-artifact@v3
-  #     with:
-  # #       github_token: ${{secrets.GH_TOKEN}}
-  #        workflow: main.yml
-  #        name: ci-data
-  #        check_artifacts: true
-  #        search_artifacts: true
-  #   - run: cat ci.json
+on:
+  push:
+    branches:
+      - master
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    permissions: 
+      actions: read
+    steps:
+    - name: Download All Artifacts
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v3
+      with:
+  #       github_token: ${{secrets.GH_TOKEN}}
+         workflow: main.yml
+         name: ci-data
+         check_artifacts: true
+         search_artifacts: true
+    - run: cat ci.json
 
 
 
