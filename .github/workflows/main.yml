@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
     - name: Create a File
-      run: echo "Hey from ${{ matrix.runs-on }}" > ci.json
+      run: echo "Hello world ${{ matrix.runs-on }}" > ci.json
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
