@@ -110,7 +110,7 @@ jobs:
     permissions: 
       actions: read
     steps:
-    - run: echo "{{ github.head_ref }}"
+    - run: echo "${{ github.head_ref }}"
     - name: Download All Artifacts
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
