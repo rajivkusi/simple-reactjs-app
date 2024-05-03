@@ -110,7 +110,7 @@ jobs:
     permissions: 
       actions: read
     steps:
-    - run: echo -n "hello" | sha1sum
+    - run: echo "${{ github.event.pull_request.head.ref }}"
     - name: Download All Artifacts
       id: download-artifact
       uses: dawidd6/action-download-artifact@v3
