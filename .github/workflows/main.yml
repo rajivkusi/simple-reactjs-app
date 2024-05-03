@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
     - run: |
-        branch_sha1=${echo -n "${{ github.event.pull_request.head.ref }}" | sha1sum }
+        branch_sha1=$(echo -n "${{ github.event.pull_request.head.ref }}" | sha1sum )
         echo $branch_sha1
     - name: Create a File
       run: echo "Hey from ${{ matrix.runs-on }}" > ci.json
