@@ -12,7 +12,7 @@ jobs:
     steps:
     - run: |
         branch_sha1=$(echo -n "${{ github.event.pull_request.head.ref }}" | sha1sum | cut -d ' ' -f1 )
-        echo $branch_sha1
+        echo "${{ github.event.pull_request.head.ref }}"
     - name: Create a File
       run: echo "Hey from ${{ matrix.runs-on }}" > ci.json
     - name: Upload Artifact
